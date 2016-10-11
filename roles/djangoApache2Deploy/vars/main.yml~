@@ -1,0 +1,19 @@
+---
+# vars file for djangoApache2Deploy
+USER: ma0
+PROJECT_NAME: testDjango
+LOCAL_USER: "{{USER}}"
+LOCAL_PROJECT_NAME: "{{PROJECT_NAME}}"
+DOMAIN: contraslash.com
+APACHE_USER: www-data
+APACHE_CONF_FILES_PATH: /etc/apache2/sites-available/
+SERVER_ADMIN: ma0@contraslash.com
+DEFAULT_APACHE_HTDOCS_DIR: /var/www/html
+SITE_NAME: "{{PROJECT_NAME}}.{{DOMAIN}}"
+DOCUMENT_ROOT: "/home/{{USER}}/{{PROJECT_NAME}}"
+VIRTUALENV_PATH: "/home/{{USER}}/.virtualenvs/{{PROJECT_NAME}}"
+SERVER_NAME: "{{SITE_NAME}}"
+WSGI_APP_PATH: "/home/{{USER}}/{{PROJECT_NAME}}/{{PROJECT_NAME}}/wsgi.py"
+MEDIA_PATH: "{{DEFAULT_APACHE_HTDOCS_DIR}}/{{SERVER_NAME}}/media"
+STATIC_PATH: "{{DEFAULT_APACHE_HTDOCS_DIR}}/{{SERVER_NAME}}/static"
+LOCAL_STATIC_FILES_PATH: "/home/ma0/djangoProjects/{{PROJECT_NAME}}/static_dist/"

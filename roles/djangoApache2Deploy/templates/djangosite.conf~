@@ -1,0 +1,41 @@
+# WSGIPythonPath {{DOCUMENT_ROOT}}:{{VIRTUALENV_PATH}}/lib/python2.7/site-packages
+
+<VirtualHost *:80>
+	ServerName {{SERVER_NAME}}
+	ServerAdmin {{SERVER_ADMIN}}
+	
+	WSGIDaemonProcess {{SERVER_NAME}} processes=2 threads=15 display-name=%{GROUP} python-path={{DOCUMENT_ROOT}}:{{VIRTUALENV_PATH}}/lib/python2.7/site-packages
+	WSGIProcessGroup {{SERVER_NAME}}
+	
+	WSGIScriptAlias / {{WSGI_APP_PATH}}
+
+	<Directory {{DOCUMENT_ROOT}}>
+		<Files wsgi.py>
+			Require all granted
+		</Files>
+	</Directory>
+
+	Alias /media/ 	{{MEDIA_PATH}}/
+	Alias /static/ 	{{STATIC_PATH}}/
+
+	<Directory {{MEDIA_PATH}}>
+		Options -Indexes
+		Require all granted
+	</Directory>
+
+	<Directory {{STATIC_PATH}}>
+                Options -Indexes
+                Require all granted
+        </Directory>
+	<Location "/media/">
+		Options -Indexes
+	</Location>
+
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+</VirtualHost>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+

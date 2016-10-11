@@ -1,0 +1,9 @@
+---
+# vars file for provisioningDjangoProject
+USER: contraslash
+LOCAL_USER: ma0
+HOME: "/home/{{USER}}"
+PROJECT_NAME: learn
+LOCAL_PROJECT_NAME: "{{PROJECT_NAME}}"
+LOCAL_PROJECT_FOLDER_DIR: "/Users/{{LOCAL_USER}}/Dropbox/ansibleprojects/{{PROJECT_NAME}}"
+DEST_PROJECT_FOLDER_DIR: "/home/contraslash/{{PROJECT_NAME}}"

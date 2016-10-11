@@ -1,0 +1,25 @@
+---
+# tasks file for djangoApache2Deploy
+- name: Copy DjangoApache Conf File
+  template: src=djangosite.conf dest="{{APACHE_CONF_FILES_PATH}}/{{SITE_NAME}}.conf"
+  register: conffilecopied
+
+- name: Create Static Folder
+  file: path="{{STATIC_PATH}}" state=directory mode=0755
+  register: staticfoldercreated
+
+- name: Create Media Folder
+  file: path="{{MEDIA_PATH}}" state=directory owner=www-data group=www-data mode=0644
+    register: mediafoldercreated
+  
+
+- name: Enable Site
+  command: "a2ensite {{SITE_NAME}}"
+  when: conffilecopied|success and staticfoldercreated|success and mediafoldercreated|success 
+  notify:
+    - Restart Apache2
+
+- name: Copy Static Files
+  copy: src="{{LOCAL_STATIC_FILES_PATH}}" dest="{{STATIC_PATH}}"
+  when: staticfoldercreated|success
+

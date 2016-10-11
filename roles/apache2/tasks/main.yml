@@ -1,0 +1,6 @@
+---
+# tasks file for apache2
+- name: Install Apache2
+  apt: pkg=apache2 state=present
+  notify:
+    - Start Apache2

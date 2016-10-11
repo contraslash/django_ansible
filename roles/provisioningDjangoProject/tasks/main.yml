@@ -1,0 +1,19 @@
+---
+# tasks file for provisioningDjangoProject
+- name: Copy Project
+  copy: src="{{LOCAL_PROJECT_FOLDER_DIR}}/{{PROJECT_NAME}}.zip" dest="{{HOME}}" owner="{{USER}}" group="{{USER}}" mode=0755
+  register: projectCopied
+
+- name: Install unzip
+  apt: pkg=unzip state=present
+  register: unzipinstalled
+
+- name: Unzip project
+  command: "unzip {{HOME}}/{{PROJECT_NAME}}.zip -d {{HOME}}"
+  register: unzippedproject
+  when: unzipinstalled|success and projectCopied|success
+
+
+- name: Install Requirements
+  pip: requirements="{{DEST_PROJECT_FOLDER_DIR}}/requirements.txt" virtualenv="{{HOME}}/.virtualenvs/{{PROJECT_NAME}}"
+  when: unzippedproject|success

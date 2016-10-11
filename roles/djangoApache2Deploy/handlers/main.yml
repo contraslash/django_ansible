@@ -1,0 +1,4 @@
+---
+# handlers file for djangoApache2Deploy
+- name: Restart Apache2
+  service: name=apache2 state=restarted

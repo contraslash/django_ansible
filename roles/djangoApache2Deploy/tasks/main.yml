@@ -1,0 +1,38 @@
+---
+# tasks file for djangoApache2Deploy
+- name: Install mod_WSGI
+  apt: pkg=libapache2-mod-wsgi state=present
+  register: modwsgiinstalled
+
+- name: Copy DjangoApache Conf File
+  template: src=djangosite.conf dest="{{APACHE_CONF_FILES_PATH}}/{{SITE_NAME}}.conf"
+  register: conffilecopied
+
+- name: Copy Static Files
+  copy: src="{{LOCAL_STATIC_FILES_PATH}}" dest="{{DOCUMENT_ROOT}}"
+  register: staticfilescopied
+
+- name: Install unzip
+  apt: pkg=unzip state=present
+  register: unzipinstalled
+
+- name: Unzip Static Files
+  command: "unzip {{DOCUMENT_ROOT}}/static.zip -d {{STATIC_PATH}}"
+  when: unzipinstalled|success and staticfilescopied|success
+  register: staticfoldercreated
+
+- name: Create Media Folder
+  file: path="{{MEDIA_PATH}}" state=directory owner=www-data group=varwwwusers mode=770
+  register: mediafoldercreated
+  
+- name: Change Permisions Document Root
+  file: path="{{DOCUMENT_ROOT}}" owner="{{APACHE_USER}}"
+
+- name: Enable Site
+  command: "a2ensite {{SITE_NAME}}"
+  when: conffilecopied|success and staticfoldercreated|success and mediafoldercreated|success 
+  notify:
+    - Restart Apache2
+
+
+

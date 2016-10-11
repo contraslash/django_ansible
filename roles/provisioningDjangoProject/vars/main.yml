@@ -1,0 +1,9 @@
+---
+# vars file for provisioningDjangoProject
+USER: ""
+LOCAL_USER: ""
+HOME: ""
+PROJECT_NAME: ""
+LOCAL_PROJECT_NAME: ""
+LOCAL_PROJECT_FOLDER_DIR: ""
+DEST_PROJECT_FOLDER_DIR: ""

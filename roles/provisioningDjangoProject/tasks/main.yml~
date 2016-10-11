@@ -1,0 +1,9 @@
+---
+# tasks file for provisionignDjangoProject
+- name: Copy Project
+  copy: src="{{PROJECT_FOLDER_DIR}}" dest="{{DEST_PROJECT_FOLDER_DIR}}" owner="{{USER}}" group="{{USER}}" mode=0755
+  register: projectCopied
+
+- name: Install Requirements
+  pip: requirements="{{DEST_PROJECT_FOLDER_DIR}}/requirements.txt" virtualenv="{{HOME}}/.virtualenvs/{{PROJECT_NAME}}"
+  when: projectCopied|success

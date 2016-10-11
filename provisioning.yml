@@ -1,0 +1,7 @@
+---
+- hosts: production
+  roles:
+    - apache2
+    - django
+    - provisioningDjangoProject
+    - djangoApache2Deploy

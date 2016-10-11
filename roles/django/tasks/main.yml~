@@ -1,0 +1,17 @@
+---
+# tasks file for django
+- name: Install Python Dev
+  apt: pkg=python-dev state=present
+  register: pythondevinstalled
+
+- name: Install Python Pip
+  apt: pkg=python-pip state=present
+  register: pythonpipinstalled
+
+- name: Install Python Virtualenv
+  apt: pkg=python-virtualenv state=present
+  register: pythonvirtualenvinstalled
+
+- name: Install Django
+  pip: name=django
+  when: pythonpipinstalled|success and pythonvirtualenvinstalled|success

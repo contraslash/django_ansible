@@ -1,0 +1,32 @@
+---
+# tasks file for django
+- name: Install Python Dev
+  apt: pkg=python-dev state=present
+  register: pythondevinstalled
+
+- name: Install Python Pip
+  apt: pkg=python-pip state=present
+  register: pythonpipinstalled
+
+- name: Install Python Virtualenv
+  apt: pkg=python-virtualenv state=present
+  register: pythonvirtualenvinstalled
+
+- name: Install Django
+  pip: name=django
+  when: pythonpipinstalled|success and pythonvirtualenvinstalled|success
+
+- name: Install Virtualenvwrapper
+  pip: name=virtualenvwrapper
+  when: pythonpipinstalled|success and pythonvirtualenvinstalled|success
+  register: virtualenvwrapperinstalled
+
+- name: Add source VirtualenvWrapper
+  command: "echo source /usr/local/bin/virtualenvwrapper.sh >> /home/{{USER}}/.bashrc "
+  when: virtualenvwrapperinstalled|success
+
+- name: Install Django Secure
+  apt: pkg={{item}} state=present
+  with_items:
+    - libssl-dev
+    - libffi-dev
